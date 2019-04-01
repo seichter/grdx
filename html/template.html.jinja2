@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+     <!-- Bootstrap Table CSS -->
+     <link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.13.5/dist/bootstrap-table.min.css">
+<script>
+
+
+function getData() {
+    
+    // $.getJSON("/data", function(result){
+    //     // $('#table').bootstrapTable('load', result);
+    //     $('#table').bootstrapTable({
+    //            data: result
+    //        });
+    //   });
+}
+
+
+// $( document ).ready(function() {
+//     getData();
+//     // Handler for .ready() called.
+// });
+
+document.addEventListener("DOMContentLoaded", function(event) {
+  //do work
+    getData();
+});
+
+function stateFormatter(value, row, index) {
+
+    // console.log(value)
+
+    if (value = 'True')
+      return {
+        disabled: true,
+        checked: true
+      }
+    }
+      return value;
+ }
+  
+
+</script>
+    <title>Grading</title>
+  </head>
+  <body>
+    <nav class="navbar navbar-default">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#">
+            <img alt="Grading" src="...">
+          </a>
+        </div>
+      </div>
+    </nav>
+
+    <!-- <button class="btn btn-primary">Update</button> -->
+    
+    <table id="table"
+        data-toggle="table"
+          data-flat="true"
+          data-url="/data"
+          data-page-size="20"
+          data-pagination="true" 
+          data-search="true"
+        >
+        <thead>
+            <tr>
+                <th data-field="valid" data-sortable="true" data-checkbox="true"
+        data-formatter="stateFormatter">Valid</th>
+                <!-- <th data-radio="true"></th> -->
+                <th data-field="id" data-sortable="true">Student ID</th>
+                <th data-field="name" data-sortable="true">Name</th>
+                <th data-field="score" data-sortable="true">Grade</th>
+                <th data-field="year" data-sortable="true">Year</th>
+                <th data-field="group" data-sortable="true">Group</th>
+            </tr>
+        </thead>
+    </table>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/bootstrap-table@1.13.5/dist/bootstrap-table.min.js"></script>
+  </body>
+</html>
