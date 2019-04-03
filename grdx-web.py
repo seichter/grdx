@@ -11,7 +11,10 @@ from sanic import Sanic
 from sanic import response
 from jinja2 import Template
 
-import grdx
+from grdx.exam import Exam
+from grdx.parser import Parser
+from grdx.grades import Grades
+
 import os
 import yaml
 
@@ -31,13 +34,10 @@ async def index(request):
 
 @app.route("/data")
 async def test(request):
-    e = grdx.Exam([4, 10, 10, 10, 4], (0.8,1) )
-    g = grdx.Grades(0.40,0.95)
-    
+    e = Exam(config['points'], (0.8,1) )
+    g = Grades(config['grades_min'],config['grades_max'])
     p = Parser(e,g)
-    
-    p.start()
-    # p.start(os.getcwd())
+    p.start(config['path'])
     return response.json( p.json() )
 
 

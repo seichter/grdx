@@ -7,7 +7,7 @@
 # Licensed under BSD-2-Clause (https://opensource.org/licenses/BSD-2-Clause)
 #
 
-class Exam(object):
+class Exam:
     """Exam holder"""
     def __init__(self,scores,bonus = (1.0,1) ):
         self.scores = scores
@@ -31,9 +31,7 @@ class Exam(object):
 #
 if __name__ == "__main__":
     e = Exam([4, 10, 10, 10, 4], (0.8,1) )
-    
+
     r = e.result([4,9,3,9,4])
-    
+
     print(r)
-    
-    

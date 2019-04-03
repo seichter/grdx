@@ -13,7 +13,7 @@
 
 
 function getData() {
-    
+
     // $.getJSON("/data", function(result){
     //     // $('#table').bootstrapTable('load', result);
     //     $('#table').bootstrapTable({
@@ -45,7 +45,7 @@ function stateFormatter(value, row, index) {
     }
       return value;
  }
-  
+
 
 </script>
     <title>Grading</title>
@@ -62,20 +62,17 @@ function stateFormatter(value, row, index) {
     </nav>
 
     <!-- <button class="btn btn-primary">Update</button> -->
-    
+
     <table id="table"
         data-toggle="table"
           data-flat="true"
           data-url="/data"
           data-page-size="20"
-          data-pagination="true" 
+          data-pagination="true"
           data-search="true"
         >
         <thead>
             <tr>
-                <th data-field="valid" data-sortable="true" data-checkbox="true"
-        data-formatter="stateFormatter">Valid</th>
-                <!-- <th data-radio="true"></th> -->
                 <th data-field="id" data-sortable="true">Student ID</th>
                 <th data-field="name" data-sortable="true">Name</th>
                 <th data-field="score" data-sortable="true">Grade</th>

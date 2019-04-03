@@ -14,10 +14,12 @@ import re
 import math
 import yaml
 
+from grdx.exam import Exam
+from grdx.parser import Parser
+from grdx.grades import Grades
+
 # PROJECT_ROOT = abspath()
 sys.path.insert(0,os.path.dirname(__file__))
-
-import exam
 
 # load configuration
 config = yaml.safe_load(open("config/config.yml"))
@@ -28,6 +30,7 @@ config = yaml.safe_load(open("config/config.yml"))
 if __name__ == "__main__":
     # print(grdx)
     e = Exam(config['points'], (0.8,1) )
-    # g = grdx.Grades(config['grades_min'],config['grades_max'])
-    # p = grdx.Parser(e,g)
-    # p.start(config['path'])
+    g = Grades(config['grades_min'],config['grades_max'])
+    p = Parser(e,g)
+    p.start(config['path'])
+    print(p.csv())
