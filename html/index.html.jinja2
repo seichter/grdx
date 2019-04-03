@@ -11,41 +11,19 @@
      <link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.13.5/dist/bootstrap-table.min.css">
 <script>
 
+window.onload = function() {
 
-function getData() {
 
-    // $.getJSON("/data", function(result){
-    //     // $('#table').bootstrapTable('load', result);
-    //     $('#table').bootstrapTable({
-    //            data: result
-    //        });
-    //   });
+     $('table').on('click-row.bs.table', function (e, row, $element) {
+         console.log(row, $element);
+         console.log(row.id);
+         console.log(window.location);
+
+         window.location = window.location + "student/" + row.id;
+
+         // window.location.replace(window.location.pathname + '/student/' + row.id)
+     });
 }
-
-
-// $( document ).ready(function() {
-//     getData();
-//     // Handler for .ready() called.
-// });
-
-document.addEventListener("DOMContentLoaded", function(event) {
-  //do work
-    getData();
-});
-
-function stateFormatter(value, row, index) {
-
-    // console.log(value)
-
-    if (value = 'True')
-      return {
-        disabled: true,
-        checked: true
-      }
-    }
-      return value;
- }
-
 
 </script>
     <title>Grading</title>

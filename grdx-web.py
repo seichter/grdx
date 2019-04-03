@@ -28,7 +28,7 @@ print('grdx-web ',config['bonus'])
 
 @app.route("/")
 async def index(request):
-    with open('html/template.html.jinja2') as file_:
+    with open('html/index.html.jinja2') as file_:
         template = Template(file_.read())
         return response.html(template.render())
 
@@ -40,6 +40,13 @@ async def test(request):
     p.start(config['path'])
     return response.json( p.json() )
 
+@app.route('/student/<integer_arg:int>')
+async def integer_handler(request, integer_arg):
+    with open('html/student.html.jinja2') as file_:
+        template = Template(file_.read())
+        return response.html(template.render())
+
+	# return text('Integer - {}'.format(integer_arg))
 
 # @app.route("/test2")
 # async def test(request):
@@ -58,4 +65,12 @@ async def test(request):
 #     return response.stream(sample_streaming_fn, content_type='text/html')
 
 if __name__ == "__main__":
+    # current_directory = os.path.dirname(os.path.abspath(current_file))
+    # js_dir = os.path.join(current_directory, 'js')
+    # css_dir = os.path.join(current_directory, 'css')
+
+    app.static('/css','./css')
+    app.static('/js','./js')
+
+
     app.run(host="0.0.0.0", port=8000)
