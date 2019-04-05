@@ -63,7 +63,10 @@ async def index(request):
         # all = len(p.students)
         # print(passed,checked,all)
         # return response.html(template.render(num_all = all, num_checked=checked, num_passed = passed, checked_ratio=round(checked/all*100,1), passed_ratio=round(passed/checked*100,1)))
-
+@app.route("/histogram")
+async def index(request):
+    return response.json( backend.histogram() )
+    
 @app.route("/data")
 async def test(request):
     return response.json( backend.json() )
