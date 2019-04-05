@@ -69,20 +69,21 @@ async def integer_handler(request, integer_arg):
 
 @app.route('/student/update', methods=['POST'])
 async def post_handler(request):
-    print(request.form['Flappy'])
-    print(request.form['student_id'])
+    # print(request.form['Flappy'])
+    # print(request.form['student_id'])
 
     for s in backend.submissions:
         if s['id'] == int(request.form['student_id'][0]):
-            print(os.path.join(s['root'],'POINT.TXT'))
+            # print(os.path.join(s['root'],'POINT.TXT'))
             points = []
             for t in config['tasks']:
-                print(request.form[t][0],t)
-                points.append(request.form[t][0])
-            print(",".join(points))
-            # with open(os.path.join(s.submission_root,'POINT.TXT'),'w') as file:
-            #     file.write(",".join(points))
-            #     file.close()
+                # print(request.form[t][0],t)
+                points.append(float(request.form[t][0]))
+            s['points'] = points
+            # print(",".join(map(str,points)))
+            with open(os.path.join(s['root'],'POINT.TXT'),'w') as file:
+                file.write(",".join(map(str,points)))
+                file.close()
 
     return response.redirect('/student/' + request.form['student_id'][0])
 
