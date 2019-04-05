@@ -39,7 +39,10 @@
 
     <form action="/student/update" method="post">
         <input name="student_id" type="hidden" value="{{student.id }}">
-        <input class="form-control" type="text" placeholder="{{ student.submission_root }}" readonly>
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label" for="path">Path</label>
+            <input class="col-sm-10 form-control" name="path" type="text" placeholder="{{ student.submission_root }}" readonly>
+        </div>
         {% for t in tasks %}
         <div class="form-group row">
             <label class="col-sm-2 col-form-label" for="{{t}}">{{t}} - max. {{points[loop.index-1]}}</label>

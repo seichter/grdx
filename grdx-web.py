@@ -40,8 +40,19 @@ print('grdx-web ',config['bonus'])
 async def index(request):
     with open('html/index.html.jinja2') as file_:
         p.start(config['path'])
+        checked = 0
+        passed = 0
+        bins = []
+        for s in p.students:
+            if s.score_valid == True:
+                checked += 1
+                # print(s.score)
+                if float(s.score) <= 4.0:
+                    passed += 1
         template = Template(file_.read())
-        return response.html(template.render())
+        all = len(p.students)
+        print(passed,checked,all)
+        return response.html(template.render(num_all = all, num_checked=checked, num_passed = passed, checked_ratio=round(checked/all*100,1), passed_ratio=round(passed/checked*100,1)))
 
 @app.route("/data")
 async def test(request):
@@ -51,7 +62,7 @@ async def test(request):
 async def integer_handler(request, integer_arg):
     p.start(config['path'])
     for s in p.students:
-        print(integer_arg,s.id)
+        # print(integer_arg,s.id)
         # print(s.scores)
         if int(s.id) == integer_arg:
             with open('html/student.html.jinja2') as file_:

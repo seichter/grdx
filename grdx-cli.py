@@ -26,13 +26,15 @@ if __name__ == "__main__":
     # load configuration
     config = yaml.safe_load(open("config/config.yml"))
 
-    print('grdx-cli ',config['path'])
-    print('grdx-cli ',config['points'])
-    print('grdx-cli ',config['tasks'])
-    print('grdx-cli ',config['bonus'])
-
-    e = Exam(config['points'], (0.8,1) )
-    g = Grades(config['grades_min'],config['grades_max'])
-    p = Parser(e,g)
-    p.start(config['path'])
-    print(p.csv())
+    for arg in sys.argv:
+        if arg == '--config':
+            print('grdx-cli ',config['path'])
+            print('grdx-cli ',config['points'])
+            print('grdx-cli ',config['tasks'])
+            print('grdx-cli ',config['bonus'])
+        if arg == '--csv':
+            e = Exam(config['points'], (0.8,1) )
+            g = Grades(config['grades_min'],config['grades_max'])
+            p = Parser(e,g)
+            p.start(config['path'])
+            print(p.csv())
