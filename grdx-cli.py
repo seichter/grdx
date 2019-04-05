@@ -15,6 +15,7 @@ import yaml
 from grdx.exam import Exam
 from grdx.parser import Parser
 from grdx.grades import Grades
+from grdx.app import App
 
 # PROJECT_ROOT = abspath()
 sys.path.insert(0,os.path.dirname(__file__))
@@ -26,15 +27,20 @@ if __name__ == "__main__":
     # load configuration
     config = yaml.safe_load(open("config/config.yml"))
 
+    backend = App(config)
+    backend.update_grades()
+
     for arg in sys.argv:
         if arg == '--config':
             print('grdx-cli ',config['path'])
-            print('grdx-cli ',config['points'])
             print('grdx-cli ',config['tasks'])
             print('grdx-cli ',config['bonus'])
+
+        if arg == '--json':
+            print(backend.json())
+
         if arg == '--csv':
-            e = Exam(config['points'], (0.8,1) )
-            g = Grades(config['grades_min'],config['grades_max'])
-            p = Parser(e,g)
-            p.start(config['path'])
-            print(p.csv())
+            print(backend.csv())
+
+        if arg == '--stats':
+            print(backend.histogram())

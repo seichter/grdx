@@ -7,7 +7,6 @@
 # Licensed under BSD-2-Clause (https://opensource.org/licenses/BSD-2-Clause)
 #
 
-import re
 
 class Student:
     """Student holder"""
@@ -20,18 +19,7 @@ class Student:
         self.score_valid = False
         self.submission_root = root
 
-    """make a student instance from the line"""
-    def parse(line,root):
-        # muster:333333:I17 Muster Hans Peter:IP209:A:1
-        fs = line.split(':') # first split
-        # print(fs[1],fs[4].split(' ')[0],fs[4].split(' ')[1])
-        s_id = fs[1]
-        s_group = fs[4].split(' ')[0]
-        s_name = fs[4].split(' ')[1]
 
-        s_year = re.search(r'\d+',s_group)[0]
-        s_group = s_group.replace(s_year,'')
-        return Student(s_id,s_name,s_year,s_group,root)
 
     """calculate the result with bonus adjustment"""
     def csv(self):

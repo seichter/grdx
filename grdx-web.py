@@ -17,77 +17,87 @@ from sanic.response import json
 from grdx.exam import Exam
 from grdx.parser import Parser
 from grdx.grades import Grades
+from grdx.app import App as GradX
 
 import os
 import yaml
 
-app = Sanic()
-
-
 config = yaml.safe_load(open("config/config.yml"))
 
-e = Exam(config['points'], (0.8,1) )
-g = Grades(config['grades_min'],config['grades_max'])
-p = Parser(e,g)
+app = Sanic()
+backend = GradX(config)
+#
+# e = Exam(config['points'], (0.8,1) )
+# g = Grades(config['grades_min'],config['grades_max'])
+# p = Parser(e,g)
 
 
-print('grdx-web ',config['path'])
-print('grdx-web ',config['points'])
-print('grdx-web ',config['tasks'])
-print('grdx-web ',config['bonus'])
+# print('grdx-web ',config['path'])
+# print('grdx-web ',config['points'])
+# print('grdx-web ',config['tasks'])
+# print('grdx-web ',config['bonus'])
 
 @app.route("/")
 async def index(request):
     with open('html/index.html.jinja2') as file_:
-        p.start(config['path'])
-        checked = 0
-        passed = 0
-        bins = []
-        for s in p.students:
-            if s.score_valid == True:
-                checked += 1
-                # print(s.score)
-                if float(s.score) <= 4.0:
-                    passed += 1
+        backend.update_grades()
+        checked = backend.checked()
+        passed = backend.passed()
+        all = backend.count()
         template = Template(file_.read())
-        all = len(p.students)
-        print(passed,checked,all)
+        # return response.html(template.render())
         return response.html(template.render(num_all = all, num_checked=checked, num_passed = passed, checked_ratio=round(checked/all*100,1), passed_ratio=round(passed/checked*100,1)))
+
+        # print(passed,checked,all)
+        # # backend.start(config['path'])
+        # checked = 0
+        # passed = 0
+        # bins = []
+        # for s in p.students:
+        #     if s.score_valid == True:
+        #         checked += 1
+        #         # print(s.score)
+        #         if float(s.score) <= 4.0:
+        #             passed += 1
+        # template = Template(file_.read())
+        # all = len(p.students)
+        # print(passed,checked,all)
+        # return response.html(template.render(num_all = all, num_checked=checked, num_passed = passed, checked_ratio=round(checked/all*100,1), passed_ratio=round(passed/checked*100,1)))
 
 @app.route("/data")
 async def test(request):
-    return response.json( p.json() )
+    return response.json( backend.json() )
 
-@app.route('/student/<integer_arg:int>')
-async def integer_handler(request, integer_arg):
-    p.start(config['path'])
-    for s in p.students:
-        # print(integer_arg,s.id)
-        # print(s.scores)
-        if int(s.id) == integer_arg:
-            with open('html/student.html.jinja2') as file_:
-                template = Template(file_.read())
-                return response.html(template.render(student=s,tasks = config['tasks'], points = config['points']))
+# @app.route('/student/<integer_arg:int>')
+# async def integer_handler(request, integer_arg):
+#     p.start(config['path'])
+#     for s in p.students:
+#         # print(integer_arg,s.id)
+#         # print(s.scores)
+#         if int(s.id) == integer_arg:
+#             with open('html/student.html.jinja2') as file_:
+#                 template = Template(file_.read())
+#                 return response.html(template.render(student=s,tasks = config['tasks'], points = config['points']))
 
 
-@app.route('/student/update', methods=['POST'])
-async def post_handler(request):
-    # print(request.form['Flappy'])
-    # print(request.form['student_id'])
-
-    for s in p.students:
-        if s.id == request.form['student_id'][0]:
-            # print(os.path.join(s.submission_root,'POINT.TXT'))
-            points = []
-            for t in config['tasks']:
-                # print(request.form[t][0],t)
-                points.append(request.form[t][0])
-            print(",".join(points))
-            with open(os.path.join(s.submission_root,'POINT.TXT'),'w') as file:
-                file.write(",".join(points))
-                file.close()
-
-    return response.redirect('/student/' + request.form['student_id'][0])
+# @app.route('/student/update', methods=['POST'])
+# async def post_handler(request):
+#     # print(request.form['Flappy'])
+#     # print(request.form['student_id'])
+#
+#     for s in p.students:
+#         if s.id == request.form['student_id'][0]:
+#             # print(os.path.join(s.submission_root,'POINT.TXT'))
+#             points = []
+#             for t in config['tasks']:
+#                 # print(request.form[t][0],t)
+#                 points.append(request.form[t][0])
+#             print(",".join(points))
+#             with open(os.path.join(s.submission_root,'POINT.TXT'),'w') as file:
+#                 file.write(",".join(points))
+#                 file.close()
+#
+#     return response.redirect('/student/' + request.form['student_id'][0])
 	# return text('POST request - {}'.format(request.form))
 
 	# return text('Integer - {}'.format(integer_arg))

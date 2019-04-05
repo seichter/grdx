@@ -25,14 +25,3 @@ class Grades:
             # print('i',i,'p',p,'l',self.levels[i])
             if p >= self.levels[i]:
                 return self.grades[i]
-
-# if __name__ == "__main__":
-#     g = Grades(0.40,0.95)
-#     print(g.grades)
-#     print(g.levels)
-#
-#     print(g.lookup(0.81293))
-#     print(g.lookup(0.3999))
-#     print(g.lookup(0.4001))
-#     print(g.lookup(0.39))
-#     print(g.lookup(0.71))

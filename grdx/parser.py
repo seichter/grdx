@@ -9,41 +9,56 @@
 
 import os
 import fnmatch
+import re
 
-from grdx.student import Student
 
 class Parser:
     """Student holder"""
-    def __init__(self,exam,grades):
-        self.students = []
-        self.exam = exam
-        self.grades = grades
+    def __init__(self):
+        self.separator = ','
+
+
+    """make a student instance from the line"""
+    def parse_identfile_data(self,line):
+
+        # muster:333333:I17 Muster Hans Peter:IP209:A:1
+        fs = line.split(':') # first split
+        # print(fs[1],fs[4].split(' ')[0],fs[4].split(' ')[1])
+        s_id = fs[1]
+        s_group = fs[4].split(' ')[0]
+        s_name = fs[4].split(' ')[1]
+        s_year = re.search(r'\d+',s_group)[0]
+        s_group = s_group.replace(s_year,'')
+
+        return { 'id':int(s_id), 'name':s_name, 'year':int(s_year), 'group':s_group, 'grade': 0  }
+
+    """parse the point file - CSV"""
+    def parse_pointfile_data(self,line):
+        return list(map(float,line.split(self.separator)))
+
 
     """traverses the tree of exam folders and collecting id information"""
-    def start(self,dirname):
-        self.students = []
+    def scan(self,dirname):
+        students = []
         for root, dirnames, filenames in os.walk(dirname):
             for filename in fnmatch.filter(filenames, 'IDENT.TXT'):
                 ident_file = os.path.join(root, filename)
                 point_file = os.path.join(root, 'POINT.TXT')
-
-                score = 0.0
-                score_valid = False # flag to differentiate
-
-                if os.path.isfile(point_file):
-                    with open(point_file) as f:
-                        for line in f:
-                            score = self.exam.score(line)
-                            score_valid = True
-
+                student = None
+                # fetch identity
                 with open(ident_file) as f:
                     for line in f:
-                        s = Student.parse(line,root)
-                        s.score = self.grades.lookup(score)
-                        s.score_valid = score_valid
-                        self.students.append(s)
-                #
+                        student = self.parse_identfile_data(line)
+                        student['root'] = root
 
+                # fetch points
+                with open(point_file) as f:
+                    for line in f:
+                        student['points'] = self.parse_pointfile_data(line)
+
+                students.append(student)
+
+        return students
 
     def json(self):
         r = []

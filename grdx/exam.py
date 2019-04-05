@@ -9,31 +9,26 @@
 
 class Exam:
     """Exam holder"""
-    def __init__(self,scores,bonus = (1.0,1) ):
-        self.scores = scores
-        self.bonus = bonus
-        self.separator = ','
-        self.tasks = []
-
-    def score(self,line):
-        points = list(map(float,line.split(self.separator)))
-        return self.result(points)
+    def __init__(self):
+        self.bonus = { 'percent': 0.8, 'point': 1 }
+        self.tasks = {}
 
     """calculate the result with bonus adjustment"""
-    def result(self,points):
-        points_adjusted = []
-        for i,e in enumerate(points):
-            task_ratio = float(e)  / self.scores[i]
-            points_adjusted.append(e)
-            if task_ratio >= self.bonus[0]:
-                points_adjusted.append(self.bonus[1])
-        return max(0, min(float(sum(points_adjusted)) / sum(self.scores), 1))
-#
-# entry point
-#
-if __name__ == "__main__":
-    e = Exam([4, 10, 10, 10, 4], (0.8,1) )
+    def get_bonus_points(self,points):
+        if len(points) < len(list(self.tasks.keys())):
+            return 0
+        bonus = 0
+        for i,e in enumerate(self.tasks):
+            ratio = float(points[i] / self.tasks[e])
+            if ratio >= self.bonus['percent']:
+                bonus += self.bonus['point']
+        return bonus
 
-    r = e.result([4,9,3,9,4])
+    def get_max_score(self):
+        return sum(list(self.tasks.values()))
 
-    print(r)
+    def get_points(self,points):
+        return sum(points) + self.get_bonus_points(points)
+
+    def get_points_ratio(self,points):
+        return max(0,min(self.get_points(points) / self.get_max_score(),1.0))
