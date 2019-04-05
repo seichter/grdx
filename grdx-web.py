@@ -48,39 +48,23 @@ async def index(request):
         # return response.html(template.render())
         return response.html(template.render(num_all = all, num_checked=checked, num_passed = passed, checked_ratio=round(checked/all*100,1), passed_ratio=round(passed/checked*100,1)))
 
-        # print(passed,checked,all)
-        # # backend.start(config['path'])
-        # checked = 0
-        # passed = 0
-        # bins = []
-        # for s in p.students:
-        #     if s.score_valid == True:
-        #         checked += 1
-        #         # print(s.score)
-        #         if float(s.score) <= 4.0:
-        #             passed += 1
-        # template = Template(file_.read())
-        # all = len(p.students)
-        # print(passed,checked,all)
-        # return response.html(template.render(num_all = all, num_checked=checked, num_passed = passed, checked_ratio=round(checked/all*100,1), passed_ratio=round(passed/checked*100,1)))
 @app.route("/histogram")
 async def index(request):
-    return response.json( backend.histogram() )
-    
+    backend.update_grades()
+    return response.json( [ backend.histogram() ] )
+
 @app.route("/data")
 async def test(request):
+    backend.update_grades()
     return response.json( backend.json() )
 
-# @app.route('/student/<integer_arg:int>')
-# async def integer_handler(request, integer_arg):
-#     p.start(config['path'])
-#     for s in p.students:
-#         # print(integer_arg,s.id)
-#         # print(s.scores)
-#         if int(s.id) == integer_arg:
-#             with open('html/student.html.jinja2') as file_:
-#                 template = Template(file_.read())
-#                 return response.html(template.render(student=s,tasks = config['tasks'], points = config['points']))
+@app.route('/student/<integer_arg:int>')
+async def integer_handler(request, integer_arg):
+    for s in backend.submissions:
+        if int(s['id']) == integer_arg:
+            with open('html/student.html.jinja2') as file_:
+                template = Template(file_.read())
+                return response.html(template.render(student=s,tasks = config['tasks']))
 
 
 # @app.route('/student/update', methods=['POST'])

@@ -16,7 +16,7 @@
 
      <link rel="stylesheet" href="/css/prism.css"></link>
 
-    <title>Grading - {{ student.id }}</title>
+    <title>Grading - {{ student['id'] }}</title>
     <script>
 
     window.onload = function() {
@@ -38,15 +38,15 @@
   </nav>
 
     <form action="/student/update" method="post">
-        <input name="student_id" type="hidden" value="{{student.id }}">
+        <input name="student_id" type="hidden" value="{{student['id'] }}">
         <div class="form-group row">
             <label class="col-sm-2 col-form-label" for="path">Path</label>
-            <input class="col-sm-10 form-control" name="path" type="text" placeholder="{{ student.submission_root }}" readonly>
+            <input class="col-sm-10 form-control" name="path" type="text" placeholder="{{ student['root'] }}" readonly>
         </div>
         {% for t in tasks %}
         <div class="form-group row">
-            <label class="col-sm-2 col-form-label" for="{{t}}">{{t}} - max. {{points[loop.index-1]}}</label>
-            <input class="col-sm-10" name="{{t}}" type="number" required class="form-control">
+            <label class="col-sm-2 col-form-label" for="{{t}}">{{t}} - max. {{tasks[t]}}</label>
+            <input class="col-sm-10" name="{{t}}" type="number" value="{{student['points'][loop.index-1]}}" required class="form-control">
         </div>
         {% endfor %}
         <div class="form-group row">
