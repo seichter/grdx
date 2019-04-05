@@ -6,8 +6,6 @@
 #
 # Licensed under BSD-2-Clause (https://opensource.org/licenses/BSD-2-Clause)
 #
-# Nutzung (im Pruefungsverzeichnis): ./gen_usercsv.py > PART_INF.csv
-#
 
 import os
 import fnmatch
@@ -23,6 +21,7 @@ class Parser:
 
     """traverses the tree of exam folders and collecting id information"""
     def start(self,dirname):
+        self.students = []
         for root, dirnames, filenames in os.walk(dirname):
             for filename in fnmatch.filter(filenames, 'IDENT.TXT'):
                 ident_file = os.path.join(root, filename)
@@ -39,7 +38,7 @@ class Parser:
 
                 with open(ident_file) as f:
                     for line in f:
-                        s = Student.parse(line)
+                        s = Student.parse(line,root)
                         s.score = self.grades.lookup(score)
                         s.score_valid = score_valid
                         self.students.append(s)

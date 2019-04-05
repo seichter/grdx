@@ -12,9 +12,11 @@ class Exam:
     def __init__(self,scores,bonus = (1.0,1) ):
         self.scores = scores
         self.bonus = bonus
+        self.separator = ','
+        self.tasks = []
 
     def score(self,line):
-        points = list(map(float,line.split(',')))
+        points = list(map(float,line.split(self.separator)))
         return self.result(points)
 
     """calculate the result with bonus adjustment"""

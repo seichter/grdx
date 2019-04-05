@@ -11,29 +11,48 @@
 
      <link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.13.5/dist/bootstrap-table.min.css">
 
-     <link rel="stylesheet" href="/css/prism.js"></link>
+     <!-- FontAwesome -->
+     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
 
-    <title>Grading</title>
+     <link rel="stylesheet" href="/css/prism.css"></link>
+
+    <title>Grading - {{ student.id }}</title>
     <script>
 
     window.onload = function() {
     }
 
     </script>
+    <style>
+
+    </style>
   </head>
   <body>
-    <nav class="navbar navbar-default">
-      <div class="container-fluid">
-        <div class="navbar-header">
-          <a class="navbar-brand" href="#">
-            <img alt="Grading" src="...">
-          </a>
+
+
+<div class="container">
+    <nav class="navbar navbar-light bg-light">
+        <a class="navbar-brand" href="/">
+            <i class="fas fa-pencil-alt"></i>GRDX
+      </a>
+  </nav>
+
+    <form action="/student/update" method="post">
+        <input name="student_id" type="hidden" value="{{student.id }}">
+        <input class="form-control" type="text" placeholder="{{ student.submission_root }}" readonly>
+        {% for t in tasks %}
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label" for="{{t}}">{{t}} - max. {{points[loop.index-1]}}</label>
+            <input class="col-sm-10" name="{{t}}" type="number" required class="form-control">
         </div>
-      </div>
-    </nav>
-
-    <pre><code class="language-css">p { color: red }</code></pre>
-
+        {% endfor %}
+        <div class="form-group row">
+            <div class="col-sm-2"></div>
+            <input type="submit" value="Send" class="btn btn-primary" />
+            <input type="reset" value="Reset" class="btn btn-primary" />
+        </div>
+    </form>
+</div>
     <!-- <button class="btn btn-primary">Update</button> -->
 
 
