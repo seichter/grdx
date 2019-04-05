@@ -67,43 +67,24 @@ async def integer_handler(request, integer_arg):
                 return response.html(template.render(student=s,tasks = config['tasks']))
 
 
-# @app.route('/student/update', methods=['POST'])
-# async def post_handler(request):
-#     # print(request.form['Flappy'])
-#     # print(request.form['student_id'])
-#
-#     for s in p.students:
-#         if s.id == request.form['student_id'][0]:
-#             # print(os.path.join(s.submission_root,'POINT.TXT'))
-#             points = []
-#             for t in config['tasks']:
-#                 # print(request.form[t][0],t)
-#                 points.append(request.form[t][0])
-#             print(",".join(points))
-#             with open(os.path.join(s.submission_root,'POINT.TXT'),'w') as file:
-#                 file.write(",".join(points))
-#                 file.close()
-#
-#     return response.redirect('/student/' + request.form['student_id'][0])
-	# return text('POST request - {}'.format(request.form))
+@app.route('/student/update', methods=['POST'])
+async def post_handler(request):
+    print(request.form['Flappy'])
+    print(request.form['student_id'])
 
-	# return text('Integer - {}'.format(integer_arg))
+    for s in backend.submissions:
+        if s['id'] == int(request.form['student_id'][0]):
+            print(os.path.join(s['root'],'POINT.TXT'))
+            points = []
+            for t in config['tasks']:
+                print(request.form[t][0],t)
+                points.append(request.form[t][0])
+            print(",".join(points))
+            # with open(os.path.join(s.submission_root,'POINT.TXT'),'w') as file:
+            #     file.write(",".join(points))
+            #     file.close()
 
-# @app.route("/test2")
-# async def test(request):
-#     return response.html('<p>Hello world!</p>')
-#
-# @app.route("/test3")
-# async def test(request):
-#     return response.html(template.render())
-#
-# @app.route("/other")
-# async def test(request):
-#     async def sample_streaming_fn(response):
-#         await response.write(await template.render_async(key='<b>foo</b>'))
-#         await asyncio.sleep(1) # just for checking if it's indeed streamed
-#         await response.write(await template.render_async(key='<b>bar</b>'))
-#     return response.stream(sample_streaming_fn, content_type='text/html')
+    return response.redirect('/student/' + request.form['student_id'][0])
 
 if __name__ == "__main__":
     # current_directory = os.path.dirname(os.path.abspath(current_file))
