@@ -1,0 +1,5 @@
+path : /some/path/to/a/folder
+tasks : {'Reverse':4,'Workaholic':10,'Einkauf':10,'Vektoren':10,'Theorie':4}
+bonus : { 0.8, 1 }
+grades_min : 0.45
+grades_max : 0.95
