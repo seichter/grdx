@@ -10,3 +10,7 @@ To relieve myself from some repetition an bookkeeping duties I build a small UI 
 * [Sanic 19.x](https://sanicframework.org/)
 * [Jinja2](http://jinja.pocoo.org/)
 
+## Screenshots
+### Command Line Interface
+
+![Command Line outputting a CSV](/docs/img/cli-output.png?raw=true "Command Line outputting a CSV")
