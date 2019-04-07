@@ -8,4 +8,5 @@ To relieve myself from some repetition an bookkeeping duties I build a small UI 
 
 ## Requirements
 * [Sanic 19.x](https://sanicframework.org/)
+* [Jinja2](http://jinja.pocoo.org/)
 
