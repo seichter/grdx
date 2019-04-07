@@ -7,5 +7,5 @@ grdx originated in a small tool to parse through some "student" id files in orde
 To relieve myself from some repetition an bookkeeping duties I build a small UI on top of it.
 
 ## Requirements
-* [Sanic 19.x](https://github.com/huge-success/sanic)
+* [Sanic 19.x](https://sanicframework.org/)
 
