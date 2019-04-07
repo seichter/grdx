@@ -14,3 +14,8 @@ To relieve myself from some repetition an bookkeeping duties I build a small UI 
 ### Command Line Interface
 
 ![Command Line outputting a CSV](/docs/img/cli-output.png?raw=true "Command Line outputting a CSV")
+
+### Web UI
+
+![Web UI](/docs/img/viewer-overview.png?raw=true "WebUI")
+
