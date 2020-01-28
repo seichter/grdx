@@ -13,58 +13,65 @@ from grdx.grades import Grades
 
 class App:
     def __init__(self,argv):
-        self.submissions = []
-        self.exam = Exam()
-        self.exam.tasks = argv['tasks']
-        self.grades = Grades(argv['grades_min'],argv['grades_max'])
-        self.parser = Parser()
-        self.submissions = self.parser.scan(argv['path'])
+        pass
+
+        # self.exams = []
+
+        # for e in argv['exams']:
+        #     self.exams.append(e)
+
+        # print(self.exams)
+
+        # self.exam.tasks = argv['tasks']
+        # self.grades = Grades(argv['grades_min'],argv['grades_max'])
+        # self.parser = Parser()
+        # self.submissions = self.parser.scan(argv['path'])
 
 
-    def update_grades(self):
-        for s in self.submissions:
-            # get ratio
-            ratio = self.exam.get_points_ratio(s['points'])
-            # lookup grade
-            s['grade'] = self.grades.lookup(ratio)
+    # def update_grades(self):
+    #     for s in self.submissions:
+    #         # get ratio
+    #         ratio = self.exam.get_points_ratio(s['points'])
+    #         # lookup grade
+    #         s['grade'] = self.grades.lookup(ratio)
 
-    def histogram(self):
-        h = {}
-        for g in self.grades.grades:
-            h[g] = 0
-        for s in self.submissions:
-            h[s['grade']] += 1
-        return h
+    # def histogram(self):
+    #     h = {}
+    #     for g in self.grades.grades:
+    #         h[g] = 0
+    #     for s in self.submissions:
+    #         h[s['grade']] += 1
+    #     return h
 
-    def count(self):
-        return len(self.submissions)
+    # def count(self):
+    #     return len(self.submissions)
 
-    def passed(self):
-        p = 0
-        for s in self.submissions:
-            if s['grade'] <= 4.0:
-                p += 1
-        return p
+    # def passed(self):
+    #     p = 0
+    #     for s in self.submissions:
+    #         if s['grade'] <= 4.0:
+    #             p += 1
+    #     return p
 
-    def checked(self):
-        c = 0
-        for s in self.submissions:
-            if s['grade'] > 0:
-                c += 1
-        return c
+    # def checked(self):
+    #     c = 0
+    #     for s in self.submissions:
+    #         if s['grade'] > 0:
+    #             c += 1
+    #     return c
 
-    def passed_ratio(self):
-        return self.passed() / len(self.submissions)
+    # def passed_ratio(self):
+    #     return self.passed() / len(self.submissions)
 
-    def json(self):
-        return self.submissions
+    # def json(self):
+    #     return self.submissions
 
-    def csv(self):
-        # slice back of the keys (path and points)
-        k = list(self.submissions[0].keys())[0:-2]
-        lines = []
-        lines.append( ",".join(k) ) # header
-        for s in self.submissions:
-            v = list(s.values())[0:-2]
-            lines.append( ",".join(map(str,v)) )
-        return "\n".join(lines)
+    # def csv(self):
+    #     # slice back of the keys (path and points)
+    #     k = list(self.submissions[0].keys())[0:-2]
+    #     lines = []
+    #     lines.append( ",".join(k) ) # header
+    #     for s in self.submissions:
+    #         v = list(s.values())[0:-2]
+    #         lines.append( ",".join(map(str,v)) )
+    #     return "\n".join(lines)

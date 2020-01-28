@@ -1,12 +1,14 @@
 # configuration is simple
 
-# directory to parse
-path : /some/path/to/a/folder
-# tasks in an exam with associated points
-tasks : {'Task1':4,'Task2':10,'AnotherTask':10}
-# a bonus rule
-bonus : { 0.8, 1 }
-# minimal level to pass 4.0 (D)
-grades_min : 0.50
-# maximum level to receive 1.0 (A+)
-grades_max : 0.95
+- exam:
+  name: 'MuMa Wintersemester 2019/2020'
+  # directory to parse
+  path : /some/path/to/a/folder
+  # tasks in an exam with associated points
+  tasks : {'Task1':4,'Task2':10,'AnotherTask':10}
+  # a bonus rule
+  bonus : { 0.8, 1 }
+  # minimal level to pass 4.0 (D)
+  grades_min : 0.50
+  # maximum level to receive 1.0 (A+)
+  grades_max : 0.95

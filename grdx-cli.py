@@ -28,19 +28,20 @@ if __name__ == "__main__":
     config = yaml.safe_load(open("config/config.yml"))
 
     backend = App(config)
-    backend.update_grades()
 
-    for arg in sys.argv:
-        if arg == '--config':
-            print('grdx-cli ',config['path'])
-            print('grdx-cli ',config['tasks'])
-            print('grdx-cli ',config['bonus'])
+    # backend.update_grades()
 
-        if arg == '--json':
-            print(backend.json())
+    # for arg in sys.argv:
+    #     if arg == '--config':
+    #         print('grdx-cli ',config['path'])
+    #         print('grdx-cli ',config['tasks'])
+    #         print('grdx-cli ',config['bonus'])
 
-        if arg == '--csv':
-            print(backend.csv())
+    #     if arg == '--json':
+    #         print(backend.json())
 
-        if arg == '--stats':
-            print(backend.histogram())
+    #     if arg == '--csv':
+    #         print(backend.csv())
+
+    #     if arg == '--stats':
+    #         print(backend.histogram())
