@@ -1,41 +1,41 @@
-import sqlite3
 
-backend_student_table = """
-CREATE TABLE IF NOT EXISTS student (
-    id integer PRIMARY KEY,
-    name text,
-    course test
-);
-"""
 
-backend_exam_table = """
-CREATE TABLE IF NOT EXISTS exam (
-     id integer PRIMARY KEY,
-     name text NOT NULL
- );
-"""
+# backend_student_table = """
+# CREATE TABLE IF NOT EXISTS student (
+#     id integer PRIMARY KEY,
+#     name text,
+#     course test
+# );
+# """
 
-backend_task_table = """
-CREATE TABLE IF NOT EXISTS task (
-     id integer PRIMARY KEY,
-     name text NOT NULL
-     FOREIGN KEY (exam_id) REFERENCES exam (id)
-     points_max integer
-     bonus_max integer
-     abstract text
-    );
-"""
+# backend_exam_table = """
+# CREATE TABLE IF NOT EXISTS exam (
+#      id integer PRIMARY KEY,
+#      name text NOT NULL
+#  );
+# """
 
-backend_answer_table = """
-CREATE TABLE IF NOT EXISTS answer (
-     id integer PRIMARY KEY,
-     FOREIGN KEY (task_id) REFERENCES tasks (id)
-     FOREIGN KEY (student_id) REFERENCES students
-     points integer
-     bonus integer
-     comment text
-    );
-"""
+# backend_task_table = """
+# CREATE TABLE IF NOT EXISTS task (
+#      id integer PRIMARY KEY,
+#      name text NOT NULL
+#      FOREIGN KEY (exam_id) REFERENCES exam (id)
+#      points_max integer
+#      bonus_max integer
+#      abstract text
+#     );
+# """
+
+# backend_answer_table = """
+# CREATE TABLE IF NOT EXISTS answer (
+#      id integer PRIMARY KEY,
+#      FOREIGN KEY (task_id) REFERENCES tasks (id)
+#      FOREIGN KEY (student_id) REFERENCES students
+#      points integer
+#      bonus integer
+#      comment text
+#     );
+# """
 
 class Backend:
     def __init__(self):
@@ -63,7 +63,7 @@ class Backend:
 
 
     def update(self):
-        self._setup_tables()
+        self.__setup_tables()
 
     def ready(self):
         return self.db != None
@@ -76,13 +76,10 @@ class Backend:
             print(e)
 
 
-    def _setup_tables(self):
+    def __setup_tables(self):
         if self.db != None:
             self.__execute(backend_student_table)
             self.__execute(backend_exam_table)
-
-    
-
 
 
 # -- submission table
@@ -100,10 +97,16 @@ class Backend:
 # );
 
 def main():
-    print('Debug')
-    be = Backend()
-    be.open()
-    be.update()
+
+    s = Student(name='Hans Muster',reg_id=30303,year='2010')
+
+    # print(s.csv())
+
+
+    # print('Debug')
+    # be = Backend()
+    # be.open()
+    # be.update()
 	
 if __name__ == '__main__':
     main()

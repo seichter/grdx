@@ -11,11 +11,14 @@ import glob, os, sys
 import re
 import math
 import yaml
+import argparse
 
 from grdx.exam import Exam
 from grdx.parser import Parser
 from grdx.grades import Grades
 from grdx.app import App
+
+
 
 # PROJECT_ROOT = abspath()
 sys.path.insert(0,os.path.dirname(__file__))
@@ -27,7 +30,7 @@ if __name__ == "__main__":
     # load configuration
     config = yaml.safe_load(open("config/config.yml"))
 
-    backend = App(config)
+    # backend = App(config)
 
     # backend.update_grades()
 
