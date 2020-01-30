@@ -57,6 +57,14 @@ class Exam(Base):
     def __init__(self,**kwargs):
         super()
     
+
+class Task(Base):
+    
+    __tablename__ = 'task'
+
+    id = Column(Integer,primary_key=True)
+    name = Column(String)
+    
     
 
 
