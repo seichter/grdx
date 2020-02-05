@@ -54,17 +54,17 @@ class IDENT_Import:
 
         return students
 
-    def json(self):
-        r = []
-        for s in self.students:
-            r.append(s.json())
-        return r
+    # def json(self):
+    #     r = []
+    #     for s in self.students:
+    #         r.append(s.json())
+    #     return r
 
-    def csv(self):
-        r = ''
-        for s in self.students:
-            r = r + s.csv() + '\n'
-        return r
+    # def csv(self):
+    #     r = ''
+    #     for s in self.students:
+    #         r = r + s.csv() + '\n'
+    #     return r
 
 
 
@@ -80,6 +80,8 @@ def main():
     i = IDENT_Import()
 
     r = i.scan(args.input)
+
+    print(r)
 
 
 if __name__ == '__main__':

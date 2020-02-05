@@ -1,11 +1,17 @@
 #!/usr/bin/env python3
 
+import os
+
 from datetime import datetime
 
 from flask import Flask, escape, request 
 from flask_sqlalchemy import SQLAlchemy
 
 from jinja2 import Template
+from jinja2 import Environment, FileSystemLoader
+root = os.path.dirname(os.path.abspath(__file__))
+templates_dir = os.path.join(root, 'templates')
+env = Environment( loader = FileSystemLoader(templates_dir) )
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data/test2.db'
@@ -15,6 +21,7 @@ class Student(db.Model):
     id = db.Column(db.Integer,primary_key=True)
     name = db.Column(db.String(120))
     course = db.Column(db.String(80))
+    year = db.Column(db.Integer)
 
     def __repr(self):
         return '<Student %i>' % self.id
@@ -33,11 +40,11 @@ class Task(db.Model):
     points = db.Column(db.Integer)
     exam_id = db.Column(db.Integer,db.ForeignKey('exam.id'))
 
-
+    
 
 @app.route('/debug/new')
 def student_new():
-    s1 = Student(id=30030,name='Erna Muster',course='INF')
+    s1 = Student(id=40404,name='Hans Hein',course='INF')
     db.session.add(s1)
     db.session.commit()
     return "Done"
@@ -45,18 +52,12 @@ def student_new():
 
 @app.route('/')
 def web_main():
-
     db.create_all()
 
-    with open('html/index.html.jinja2') as file_:
-        name = request.args.get("name", "World")
-        print(name)
-        template = Template(file_.read())
-        
-        passed = 1
-        checked = 100
-        
-        out = template.render()
-        return out
+    template = env.get_template('index.html.jinja2')
+
+    out = template.render(students=Student.query.all())
+    
+    return out
 
         # return f'Hello, {escape(name)}!'
