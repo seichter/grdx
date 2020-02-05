@@ -60,4 +60,8 @@ def web_main():
     
     return out
 
-        # return f'Hello, {escape(name)}!'
+
+@app.route('/edit/id/<int:identifier>')
+def student_edit(identifier):
+    print(identifier)
+    return "test! " + str(identifier)
