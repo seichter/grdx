@@ -4,7 +4,7 @@ import os
 
 from datetime import datetime
 
-from flask import Flask, escape, request 
+from flask import Flask, escape, request, redirect
 from flask_sqlalchemy import SQLAlchemy
 
 from jinja2 import Template
@@ -50,15 +50,37 @@ def student_new():
     return "Done"
 
 
-@app.route('/')
+@app.route('/', methods=['GET', 'POST'])
 def web_main():
+
     db.create_all()
+
+    if request.form:
+        s = Student(id=request.form.get('student_id'),
+            name=request.form.get('name'),
+            year=request.form.get('year'),
+            course=request.form.get('course'))
+        
+        db.session.add(s)
+        db.session.commit()
+
+        print(request.form)
 
     template = env.get_template('index.html.jinja2')
 
     out = template.render(students=Student.query.all())
     
     return out
+
+@app.route('/student/delete', methods=['POST'])
+def student_delete():
+    s_id = request.form.get('student_id')
+    s = Student.query.filter_by(id=s_id).first()
+    db.session.delete(s)
+    db.session.commit()
+    
+    return redirect('/')
+
 
 
 @app.route('/edit/id/<int:identifier>')
