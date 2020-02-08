@@ -33,6 +33,11 @@ class Exam(db.Model):
     date = db.Column(db.DateTime,nullable=False,default=datetime.utcnow)
     tasks = db.relationship('Task',backref=db.backref('exam',lazy=True))
 
+class Enrollment(db.Model):
+    id = db.Column(db.Integer,primary_key=True)
+    exam_id = db.Column(db.Integer,db.ForeignKey('exam.id'))
+    student_id = db.Column(db.Integer,db.ForeignKey('student.id'))
+
 class Task(db.Model):
     id = db.Column(db.Integer,primary_key=True)
     name = db.Column(db.String(80))
