@@ -19,6 +19,16 @@
 
   window.onload = function() {
     $(document).ready(function() {
+
+      $(".clickStudentRow").click(function(e){
+
+        var $item = $(this).closest("tr")   // Finds the closest row <tr> 
+                       .find(".student_id")     // Gets a descendent with class="nr"
+                       .text();         // Retrieves the text within <td>
+        console.log($item);
+      }
+      );
+
       $(".showModal").click(function(e) {
         e.preventDefault();
         
@@ -36,48 +46,31 @@
   
   <body>
     <div class="container">
+
+        {% include 'modal_add_student.html.jinja2' %}
+
         <nav class="navbar navbar-light bg-light">
-            <a class="navbar-brand" href="/">
-              <i class="fas fa-pencil-alt"></i>&nbsp;GRDX
-          </a>
+            <a class="navbar-brand" href="/"><i class="fas fa-pencil-alt"></i>&nbsp;GRDX</a>
+
+            {% include 'navigation.html' %}
+
         </nav>
 
-    <table class="table table-striped">
-    <caption>List of students</caption>
-      <thead>
-        <tr>
-          <th scope="col">ID</th>
-          <th scope="col">Name</th>
-          <th scope="col">Year</th>
-          <th scope="col">Course</th>
-          <th scope="col">&nbsp;</th>
-        </tr>
-      </thead>
-      <tbody>          
-        {% for s in students %}
-        <tr>
-        <td>{{ s.id }}</td>
-        <td>{{ s.name }}</td>
-        <td>{{ s.year }}</td>
-        <td>{{ s.course }}</td>
-        <td>
-        <center>
-          
-          <form method="POST" action="/student/delete">
-            <input type="hidden" value="{{s.id}}" name="student_id">
-            <input type="submit" class="fa btn btn-success" value="&#xf506; Delete"/>
-          </form>
-        </center>
-        </td>
-        <tr>
-        {% endfor %}
-      </tbody>
-      </table>
+      {% if task == 'students' %}
+        {% include 'student_list.html' %}
+        {% include 'student_form.html' %}
+      {% endif %}
 
-      {% include 'student_add.html.jinja2' %}
+      {% if task == 'courses' %}
+        {% include 'courses_list.html' %}
+      {% endif %}
 
+      <!--
 
       {% include 'bottom.html.jinja2' %}
+        
+    
+        -->
 
    </div>
 

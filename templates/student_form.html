@@ -1,0 +1,34 @@
+<form method="POST" action="/students">
+
+  <div class="input-group mb-3">
+    <div class="input-group-prepend">
+      <span class="input-group-text" id="label-studentid">Student ID </span>
+    </div>
+    <input type="number" class="form-control" placeholder="999999" aria-label="Student ID"
+      aria-describedby="label-studentid" name="student_id" min="100000" max="999999">
+  </div>
+
+  <div class="input-group mb-3">
+    <div class="input-group-prepend">
+      <span class="input-group-text" id="">First and last name</span>
+    </div>
+    <input type="text" name="firstname" class="form-control">
+    <input type="text" name="lastname" class="form-control">
+  </div>
+
+  <div class="input-group mb-3">
+    <div class="input-group-prepend">
+      <span class="input-group-text" id="">Enrollment Year</span>
+    </div>
+    <input type="number" name="year" min="1899" class="form-control">
+  </div>
+
+  <div class="input-group mb-3">
+    <div class="input-group-prepend">
+      <span class="input-group-text" id="">Study Course</span>
+    </div>
+    <input type="text" name="course" class="form-control">
+  </div>
+
+  <button type="submit" class="btn btn-primary form-control mb-3">Submit</button>
+</form>

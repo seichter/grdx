@@ -19,7 +19,8 @@ db = SQLAlchemy(app)
 
 class Student(db.Model):
     id = db.Column(db.Integer,primary_key=True)
-    name = db.Column(db.String(120))
+    firstname = db.Column(db.String(120))
+    lastname = db.Column(db.String(120))
     course = db.Column(db.String(80))
     year = db.Column(db.Integer)
 
@@ -41,28 +42,35 @@ class Enrollment(db.Model):
 class Task(db.Model):
     id = db.Column(db.Integer,primary_key=True)
     name = db.Column(db.String(80))
-    description = db.Column(db.String())
+    description = db.Column(db.String)
     points = db.Column(db.Integer)
     exam_id = db.Column(db.Integer,db.ForeignKey('exam.id'))
 
-    
+class Solution(db.Model):
+    id = db.Column(db.Integer,primary_key=True)
+    task_id = db.Column(db.Integer,db.ForeignKey('task.id'))
+    student_id = db.Column(db.Integer,db.ForeignKey('student.id'))
+    points = db.Column(db.Integer)
+    comment = db.Column(db.String)
 
-@app.route('/debug/new')
-def student_new():
-    s1 = Student(id=40404,name='Hans Hein',course='INF')
-    db.session.add(s1)
-    db.session.commit()
-    return "Done"
+class Course(db.Model):
+    id = db.Column(db.String(4),primary_key=True)
+    name = db.Column(db.String(20))
 
 
-@app.route('/', methods=['GET', 'POST'])
-def web_main():
-
+@app.route('/')
+def index():
     db.create_all()
+    
+    return redirect('/students')
 
+
+@app.route('/students',methods=['GET', 'POST'])
+def students():
     if request.form:
         s = Student(id=request.form.get('student_id'),
-            name=request.form.get('name'),
+            firstname=request.form.get('firstname'),
+            lastname=request.form.get('lastname'),
             year=request.form.get('year'),
             course=request.form.get('course'))
         
@@ -71,11 +79,22 @@ def web_main():
 
         print(request.form)
 
-    template = env.get_template('index.html.jinja2')
+    template = env.get_template('index.html')
 
-    out = template.render(students=Student.query.all())
+    out = template.render(students=Student.query.all(),task='students')
     
     return out
+
+
+
+@app.route('/courses')
+def courses():
+    template = env.get_template('index.html')
+
+    out = template.render(students=Student.query.all(),task='courses')
+    
+    return out
+
 
 @app.route('/student/delete', methods=['POST'])
 def student_delete():
@@ -87,8 +106,7 @@ def student_delete():
     return redirect('/')
 
 
-
-@app.route('/edit/id/<int:identifier>')
-def student_edit(identifier):
-    print(identifier)
-    return "test! " + str(identifier)
+# @app.route('/edit/id/<int:identifier>')
+# def student_edit(identifier):
+#     print(identifier)
+#     return "test! " + str(identifier)
