@@ -13,7 +13,7 @@
     <tbody>
         {% for s in students %}
         <tr class="clickStudentRow">
-            <td class="student_id">{{ s.id }}</td>
+            <th class="student_id" scope="row">{{ s.id }}</th>
             <td>{{ s.lastname }}</td>
             <td>{{ s.firstname }}</td>
             <td>{{ s.year }}</td>
@@ -23,7 +23,7 @@
 
                     <form method="POST" action="/student/delete">
                         <input type="hidden" value="{{s.id}}" name="student_id">
-                        <input type="submit" class="fa btn btn-success" value="&#xf506; Delete" />
+                        <button type="submit" class="btn btn-sm btn-secondary form-control mb-3"><i class="fas fa-trash"></i></button>
                     </form>
 
                 </center>

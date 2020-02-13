@@ -27,7 +27,13 @@
     <div class="input-group-prepend">
       <span class="input-group-text" id="">Study Course</span>
     </div>
-    <input type="text" name="course" class="form-control">
+
+    <select type="text" name="course_id" class="form-control">
+        <option selected>Choose...</option>
+      {% for c in courses %}
+        <option value="{{c.id}}">{{c.name}}</option>
+      {% endfor %}
+    </select>
   </div>
 
   <button type="submit" class="btn btn-primary form-control mb-3">Submit</button>

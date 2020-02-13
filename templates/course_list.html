@@ -1,0 +1,27 @@
+<table class="table table-bordered table-hover">
+    <caption>List of courses</caption>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th scope="col">Name</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for c in courses %}
+        <tr>
+            <th scope="row">{{ c.id }}</th>
+            <td>{{ c.name }}</td>
+            <td>
+                <center>
+
+                    <form method="POST" action="/course/delete">
+                        <input type="hidden" value="{{c.id}}" name="course_id">
+                        <button type="submit" class="btn btn-sm btn-secondary form-control mb-3"><i class="fas fa-trash"></i></button>
+                    </form>
+
+                </center>
+            </td>
+        <tr>
+        {% endfor %}
+    </tbody>
+</table>
