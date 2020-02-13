@@ -17,11 +17,16 @@ app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data/test2.db'
 db = SQLAlchemy(app)
 
+class Course(db.Model):
+    id = db.Column(db.String(4),primary_key=True)
+    name = db.Column(db.String(20))
+    students = db.relationship('Student',backref=db.backref('course',lazy=True))
+
 class Student(db.Model):
     id = db.Column(db.Integer,primary_key=True)
     firstname = db.Column(db.String(120))
     lastname = db.Column(db.String(120))
-    course = db.Column(db.String(80))
+    course_id = db.Column(db.String,db.ForeignKey('course.id'))
     year = db.Column(db.Integer)
 
     def __repr(self):
@@ -53,10 +58,6 @@ class Solution(db.Model):
     points = db.Column(db.Integer)
     comment = db.Column(db.String)
 
-class Course(db.Model):
-    id = db.Column(db.String(4),primary_key=True)
-    name = db.Column(db.String(20))
-
 
 @app.route('/')
 def index():
@@ -72,7 +73,7 @@ def students():
             firstname=request.form.get('firstname'),
             lastname=request.form.get('lastname'),
             year=request.form.get('year'),
-            course=request.form.get('course'))
+            course_id=request.form.get('course_id'))
         
         db.session.add(s)
         db.session.commit()
@@ -81,17 +82,21 @@ def students():
 
     template = env.get_template('index.html')
 
-    out = template.render(students=Student.query.all(),task='students')
+    out = template.render(students=Student.query.all(),courses=Course.query.all(),task='students')
     
     return out
 
 
-
-@app.route('/courses')
+@app.route('/course',methods=['GET', 'POST'])
 def courses():
-    template = env.get_template('index.html')
+ 
+    if request.form:
+        c = Course(id=request.form.get('course_id'),name=request.form.get('name'))
+        db.session.add(c)
+        db.session.commit()
 
-    out = template.render(students=Student.query.all(),task='courses')
+    template = env.get_template('index.html')
+    out = template.render(courses=Course.query.all(),task='courses')
     
     return out
 
@@ -105,6 +110,16 @@ def student_delete():
     
     return redirect('/')
 
+
+
+@app.route('/course/delete', methods=['POST'])
+def course_deleter():
+    s_id = request.form.get('course_id')
+    s = Course.query.filter_by(id=s_id).first()
+    db.session.delete(s)
+    db.session.commit()
+    
+    return redirect('/course')
 
 # @app.route('/edit/id/<int:identifier>')
 # def student_edit(identifier):
