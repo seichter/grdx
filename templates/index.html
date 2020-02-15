@@ -66,6 +66,11 @@
         {% include 'course_form.html' %}
       {% endif %}
 
+      {% if task == 'exams' %}
+        {% include 'exam.html' %}
+      {% endif %}
+
+
       <!--
 
       {% include 'bottom.html.jinja2' %}

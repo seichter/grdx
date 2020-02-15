@@ -1,0 +1,49 @@
+<h3 class="mb-3 mt-3">List of Exams</h3>
+
+{% for e in exams %}
+<div class="card mt-3">
+  <div class="card-header">
+    {{e.name}}
+  </div>
+  <div class="card-body">
+    {{e.description}}
+  </div>
+  <table class="table">
+    <thead>
+      <td>Name</td>
+    </thead>
+    <tbody>
+      {% for t in e.tasks %}
+      <td>t.name</td>
+      {% endfor %}
+    </tbody>
+  </table>
+  <div class="card-footer">
+    <form method="POST" action="/exam/delete">
+      <input type="hidden" value="{{e.id}}" name="exam_id">
+      <button type="submit" class="btn btn-sm btn-secondary"><i class="fas fa-trash"></i></button>
+    </form>
+  </div>
+</div>
+{% endfor %}
+
+<h3 class="mb-3 mt-3">Add Exam</h3>
+<form method="POST" action="/exams">
+
+  <div class="input-group mb-3">
+    <div class="input-group-prepend">
+      <span class="input-group-text" id="label-courseid">Name</span>
+    </div>
+    <input type="text" class="form-control" placeholder="Computer Graphics" aria-label="Course ID"
+      aria-describedby="label-studentid" name="name">
+  </div>
+
+  <div class="input-group mb-3">
+    <div class="input-group-prepend">
+      <span class="input-group-text" id="description">Description</span>
+    </div>
+    <textarea name="description" class="form-control"></textarea>
+  </div>
+
+  <button type="submit" class="btn btn-primary form-control mb-3">Submit</button>
+</form>

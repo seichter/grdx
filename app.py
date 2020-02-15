@@ -20,7 +20,6 @@ db = SQLAlchemy(app)
 class Course(db.Model):
     id = db.Column(db.String(4),primary_key=True)
     name = db.Column(db.String(20))
-    students = db.relationship('Student',backref=db.backref('course',lazy=True))
 
 class Student(db.Model):
     id = db.Column(db.Integer,primary_key=True)
@@ -28,7 +27,7 @@ class Student(db.Model):
     lastname = db.Column(db.String(120))
     course_id = db.Column(db.String,db.ForeignKey('course.id'))
     year = db.Column(db.Integer)
-
+ 
     def __repr(self):
         return '<Student %i>' % self.id
 
@@ -46,6 +45,7 @@ class Enrollment(db.Model):
 
 class Task(db.Model):
     id = db.Column(db.Integer,primary_key=True)
+    weight=db.Column(db.Number)
     name = db.Column(db.String(80))
     description = db.Column(db.String)
     points = db.Column(db.Integer)
@@ -62,10 +62,11 @@ class Solution(db.Model):
 @app.route('/')
 def index():
     db.create_all()
-    
     return redirect('/students')
 
-
+##
+## Student
+##
 @app.route('/students',methods=['GET', 'POST'])
 def students():
     if request.form:
@@ -86,8 +87,30 @@ def students():
     
     return out
 
+@app.route('/student/delete', methods=['POST'])
+def student_delete():
+    s_id = request.form.get('student_id')
+    s = Student.query.filter_by(id=s_id).first()
+    db.session.delete(s)
+    db.session.commit()
+    
+    return redirect('/')
 
-@app.route('/course',methods=['GET', 'POST'])
+##
+## Course
+##
+
+@app.route('/course/delete', methods=['POST'])
+def course_deleter():
+    s_id = request.form.get('course_id')
+    s = Course.query.filter_by(id=s_id).first()
+    db.session.delete(s)
+    db.session.commit()
+    
+    return redirect('/courses')
+
+
+@app.route('/courses',methods=['GET', 'POST'])
 def courses():
  
     if request.form:
@@ -100,26 +123,51 @@ def courses():
     
     return out
 
+##
+## Exams
+##
 
-@app.route('/student/delete', methods=['POST'])
-def student_delete():
-    s_id = request.form.get('student_id')
-    s = Student.query.filter_by(id=s_id).first()
-    db.session.delete(s)
+@app.route('/exams',methods=['GET','POST'])
+def exams():
+
+    if request.form:
+        e = Exam(name=request.form.get('name'),description=request.form.get('description'))
+        db.session.add(e)
+        db.session.commit()
+        print(e)
+
+    template = env.get_template('index.html')
+    out = template.render(exams=Exam.query.all(),task='exams')
+
+    return out
+
+@app.route('/exam/delete', methods=['POST'])
+def exam_deleter():
+    e_id = request.form.get('exam_id')
+    e = Exam.query.filter_by(id=e_id).first()
+    db.session.delete(e)
     db.session.commit()
     
-    return redirect('/')
+    return redirect('/exams')
 
+##
+## Task
+## 
 
+@app.route('/task',methods=['GET','POST'])
+def task():
 
-@app.route('/course/delete', methods=['POST'])
-def course_deleter():
-    s_id = request.form.get('course_id')
-    s = Course.query.filter_by(id=s_id).first()
-    db.session.delete(s)
-    db.session.commit()
-    
-    return redirect('/course')
+    if request.form:
+        e = Task(name=request.form.get('name'),
+            description=request.form.get('description'))
+        db.session.add(e)
+        db.session.commit()
+        print(e)
+
+    template = env.get_template('index.html')
+    out = template.render(exams=Exam.query.all(),task='exams')
+    return out
+
 
 # @app.route('/edit/id/<int:identifier>')
 # def student_edit(identifier):
